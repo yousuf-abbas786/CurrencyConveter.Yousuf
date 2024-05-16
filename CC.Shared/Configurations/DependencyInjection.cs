@@ -12,9 +12,7 @@ namespace CC.Shared.Configurations
         public static IServiceCollection AddShared(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IFlurlClientCache>(sp => new FlurlClientCache()
-                .Add("CalendarAPI", configuration["APIBaseURLs:CalendarAPI"])
-                .Add("DispatchAPI", configuration["APIBaseURLs:DispatchAPI"])
-                .Add("PlaywrightAPI", configuration["APIBaseURLs:PlaywrightAPI"]));
+                .Add("FrankfurterAPI", configuration["APIBaseURLs:FrankfurterAPI"]));
 
             return services;
         }

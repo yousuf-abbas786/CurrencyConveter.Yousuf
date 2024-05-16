@@ -14,7 +14,7 @@ namespace CC.DataServices.ExtAPIs
 {
     public class LiveKubeAPIServices : BaseAPIServices
     {
-        public LiveKubeAPIServices(ILogger<LiveKubeAPIServices> logger, IFlurlClientCache clients) : base(logger, clients, "CalendarAPI")
+        public LiveKubeAPIServices(ILogger<LiveKubeAPIServices> logger, IFlurlClientCache clients) : base(logger, clients, "FranfurterAPI")
         {
         }
 
