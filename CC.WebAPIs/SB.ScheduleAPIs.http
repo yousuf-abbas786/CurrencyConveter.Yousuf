@@ -1,0 +1,6 @@
+@SB.ScheduleAPIs_HostAddress = http://localhost:5298
+
+GET {{SB.ScheduleAPIs_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
