@@ -1,5 +1,4 @@
 ﻿
-using CC.DataServices.ExtAPIs;
 using CC.DataServices.Services;
 using CC.DataServices.Services.Interfaces;
 using Microsoft.Extensions.Configuration;

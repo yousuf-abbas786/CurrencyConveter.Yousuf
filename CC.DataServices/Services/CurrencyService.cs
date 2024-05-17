@@ -1,5 +1,4 @@
-﻿using CC.DataServices.ExtAPIs;
-using CC.DataServices.Services.Interfaces;
+﻿using CC.DataServices.Services.Interfaces;
 using CC.Shared.Abstractions;
 using CC.Shared.CurrencyAPIEntities;
 using CC.Shared.ExtAPIEntities;
@@ -13,8 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using static CC.DataServices.ExtAPIs.LiveKubeAPIServices;
 
 namespace CC.DataServices.Services
 {

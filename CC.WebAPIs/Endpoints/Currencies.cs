@@ -1,6 +1,7 @@
-﻿using CC.DataServices.ExtAPIs;
-using CC.DataServices.Services.Interfaces;
+﻿using CC.DataServices.Services.Interfaces;
 using CC.WebAPIs.Infrastructure;
+
+using static MongoDB.Driver.WriteConcern;
 
 namespace CC.WebAPIs.Endpoints
 {
@@ -11,7 +12,8 @@ namespace CC.WebAPIs.Endpoints
             app.MapGroup(this)
                 //.RequireAuthorization()
                 .MapGet(GetLatestRates, "latest")
-                .MapGet(ConvertCurrency, "convert");
+                .MapGet(ConvertCurrency, "convert")
+                .MapGet(GetHistoricalRates, "historical");
         }
 
         public async Task<IResult> GetLatestRates(string? from, ICurrencyService currencyServices)
@@ -45,6 +47,18 @@ namespace CC.WebAPIs.Endpoints
                 
                 return TypedResults.Extensions.APIResult_Ok(res);
             }
+
+            return TypedResults.Extensions.APIResult_Ok(null);
+        }
+
+        public async Task<IResult> GetHistoricalRates(string? from, DateTime? startDate, DateTime? endDate, ICurrencyService currencyServices)
+        {
+            ArgumentNullException.ThrowIfNull(startDate, "startDate");
+
+            var res = await currencyServices.GetLatestRates(from);
+
+            if (res != null)
+                return TypedResults.Extensions.APIResult_Ok(res);
 
             return TypedResults.Extensions.APIResult_Ok(null);
         }
