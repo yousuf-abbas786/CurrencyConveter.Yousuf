@@ -1,4 +1,6 @@
-﻿using Flurl;
+﻿using CC.Shared.CurrencyAPIEntities;
+
+using Flurl;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 
@@ -10,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CC.Shared.Abstractions

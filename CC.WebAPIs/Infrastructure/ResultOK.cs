@@ -1,7 +1,12 @@
 ﻿
+using CC.Shared.CurrencyAPIEntities;
 using CC.Shared.Models;
 
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+
+using System.Text.Json;
 
 namespace CC.WebAPIs.Infrastructure
 {
@@ -36,8 +41,10 @@ namespace CC.WebAPIs.Infrastructure
                 result.Message = "Data not Created or Updated";
             }
 
+
             return httpContext.Response.WriteAsJsonAsync<APIResult>(result);
 
         }
     }
+
 }

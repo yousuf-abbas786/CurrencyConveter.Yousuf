@@ -1,4 +1,5 @@
 ﻿using CC.DataServices.ExtAPIs;
+using CC.DataServices.Services.Interfaces;
 using CC.Shared.Abstractions;
 using CC.Shared.CurrencyAPIEntities;
 using CC.Shared.ExtAPIEntities;
@@ -23,21 +24,33 @@ namespace CC.DataServices.Services
         {
         }
 
-        public async Task<CurrencyEntity> ConvertCurrency(string from, string to, decimal amount)
+        public async Task<CurrencyEntity> ConvertCurrency(string from, string to, double amount)
         {
-            throw new NotImplementedException();
+            var response = await GetRequestData<CurrencyEntity>($"/latest", null, new Dictionary<string, string>
+            {
+                {"from", from },
+                {"to", to },
+                {"amount", amount.ToString() }
+            });
+
+            return response;
         }
 
         public async Task<CurrencyEntity> GetHistoricalRates(string from, string startDate, string endDate)
         {
-            throw new NotImplementedException();
+            var response = await GetRequestData<CurrencyEntity>($"/{startDate}..{endDate}", null, new Dictionary<string, string>
+            {
+                {"from", from }
+            });
+
+            return response;
         }
 
         public async Task<CurrencyEntity> GetLatestRates(string from)
         {
             var response = await GetRequestData<CurrencyEntity>($"/latest", null, new Dictionary<string, string>
             {
-                {"from", from.ToString() }
+                {"from", from }
             });
 
             return response;

@@ -19,5 +19,12 @@ namespace CC.WebAPIs.Infrastructure
 
             return new ResultError();
         }
+
+        public static IResult APIResult_BadRequest(this IResultExtensions resultExtensions)
+        {
+            ArgumentNullException.ThrowIfNull(resultExtensions);
+
+            return new ResultBadRequest();
+        }
     }
 }

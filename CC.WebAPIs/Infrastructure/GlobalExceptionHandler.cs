@@ -22,10 +22,17 @@ namespace CC.WebAPIs.Infrastructure
         {
             _logger.LogError($"GEH - Method:{httpContext.Request.Method} - Path:{httpContext.Request.Path}, Message: {exception.Message} - StackTrace: {exception.StackTrace}");
 
+            string message = "An unexpected error occurred, check logs for details or contact administrator.";
+
+            if (exception.GetType() == typeof(ArgumentNullException)) 
+            {
+                message = exception.Message;
+            }
+
             await httpContext.Response.WriteAsJsonAsync(new APIResult
             {
                 StatusCode = (int)HttpStatusCode.InternalServerError,
-                Message = "An unexpected error occurred, check logs for details or contact administrator.",
+                Message = message,
                 Data = null
             });
 

@@ -1,18 +1,15 @@
-﻿using Flurl.Http.Configuration;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CC.Shared.CurrencyAPIEntities
 {
-    public class CurrencyEntity
+    public class CurrencyHistoricalEntity
     {
         [JsonProperty("amount")]
         public float Amount { get; set; }
@@ -21,10 +18,9 @@ namespace CC.Shared.CurrencyAPIEntities
         public string Base { get; set; }
 
         [JsonProperty("date")]
-        public string Date { get; set; }
+        public string date { get; set; }
 
-        [JsonProperty("rates")]
-        public Dictionary<string, double> Rates { get; set; }
+        [JsonPropertyName("rates")]
+        public Dictionary<string, Dictionary<string, double>> HistoricalRates { get; set; }
     }
-
 }
