@@ -1,4 +1,5 @@
 ﻿using CC.Shared.Abstractions;
+using CC.Shared.Helpers;
 
 using Flurl.Http.Configuration;
 
@@ -12,6 +13,7 @@ namespace CC.Shared.Configurations
         public static IServiceCollection AddShared(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IFlurlClientCache>(sp => new FlurlClientCache().Add("FrankfurterAPI", configuration["APIBaseURLs:FrankfurterAPI"]));
+            services.AddSingleton<CacheHelper>();
 
             return services;
         }

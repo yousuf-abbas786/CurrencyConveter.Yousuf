@@ -25,7 +25,7 @@ namespace CC.DataServices.Services
 
         public async Task<CurrencyEntity> GetLatestRatesAsync(string from)
         {
-            var response = await GetRequestData<CurrencyEntity>($"/latest", new Dictionary<string, string>
+            var response = await GetRequestDataAsync<CurrencyEntity>($"/latest", new Dictionary<string, string>
             {
                 {"from", from }
             });
@@ -35,7 +35,7 @@ namespace CC.DataServices.Services
 
         public async Task<CurrencyEntity> ConvertCurrencyAsync(string from, string to, double amount)
         {
-            var response = await GetRequestData<CurrencyEntity>($"/latest", new Dictionary<string, string>
+            var response = await GetRequestDataAsync<CurrencyEntity>($"/latest", new Dictionary<string, string>
             {
                 {"from", from },
                 {"to", to },
@@ -47,7 +47,7 @@ namespace CC.DataServices.Services
 
         public async Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, DateTime startDate, DateTime? endDate, int page, int pageSize)
         {
-            var response = await GetRequestData<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{(endDate.HasValue ? endDate.Value.GetDateString() : string.Empty) }", new Dictionary<string, string>
+            var response = await GetRequestDataAsync<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{(endDate.HasValue ? endDate.Value.GetDateString() : string.Empty) }", new Dictionary<string, string>
             {
                 {"from", from }
             });

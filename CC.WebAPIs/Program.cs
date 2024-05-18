@@ -21,6 +21,7 @@ builder.Host.UseSerilog((hostingContext, services, loggerConfiguration) => logge
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddDataServices(builder.Configuration);
 builder.Services.AddShared(builder.Configuration);
