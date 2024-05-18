@@ -10,13 +10,12 @@ namespace CC.WebAPIs.Endpoints
         public override void Map(WebApplication app)
         {
             app.MapGroup(this)
-                //.RequireAuthorization()
                 .MapGet(GetLatestRates, "latest")
                 .MapGet(ConvertCurrency, "convert")
                 .MapGet(GetHistoricalRates, "historical");
         }
 
-        public async Task<IResult> GetLatestRates(string? from, ICurrencyService currencyServices)
+        public async Task<IResult> GetLatestRates(string? from, string? to, ICurrencyService currencyServices)
         {
 
             var res = await currencyServices.GetLatestRates(from);
@@ -34,10 +33,8 @@ namespace CC.WebAPIs.Endpoints
             ArgumentNullException.ThrowIfNull(amount, "amount");
 
             if (currenciesToExclude.Contains(from) || currenciesToExclude.Contains(to))
-            {
                 return TypedResults.Extensions.APIResult_BadRequest();
-            }
-
+            
             var res = await currencyServices.ConvertCurrency(from, to, amount.Value);
 
             if (res != null)
@@ -54,8 +51,9 @@ namespace CC.WebAPIs.Endpoints
         public async Task<IResult> GetHistoricalRates(string? from, DateTime? startDate, DateTime? endDate, ICurrencyService currencyServices)
         {
             ArgumentNullException.ThrowIfNull(startDate, "startDate");
+            ArgumentNullException.ThrowIfNull(endDate, "endDate");
 
-            var res = await currencyServices.GetLatestRates(from);
+            var res = await currencyServices.GetHistoricalRates(from, startDate.Value, endDate.Value);
 
             if (res != null)
                 return TypedResults.Extensions.APIResult_Ok(res);

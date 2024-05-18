@@ -28,6 +28,10 @@ namespace CC.WebAPIs.Infrastructure
             {
                 message = exception.Message;
             }
+            if (exception.Message.Contains("Failed to bind parameter") && exception.Message.Contains("DateTime"))
+            {
+                message = "one of the dates passed in the endpoint is not correct, please correct and send a valid date";
+            }
 
             await httpContext.Response.WriteAsJsonAsync(new APIResult
             {

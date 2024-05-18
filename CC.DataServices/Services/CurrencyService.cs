@@ -1,4 +1,5 @@
 ﻿using CC.DataServices.Services.Interfaces;
+using CC.Shared;
 using CC.Shared.Abstractions;
 using CC.Shared.CurrencyAPIEntities;
 using CC.Shared.ExtAPIEntities;
@@ -21,6 +22,16 @@ namespace CC.DataServices.Services
         {
         }
 
+        public async Task<CurrencyEntity> GetLatestRates(string from)
+        {
+            var response = await GetRequestData<CurrencyEntity>($"/latest", null, new Dictionary<string, string>
+            {
+                {"from", from }
+            });
+
+            return response;
+        }
+
         public async Task<CurrencyEntity> ConvertCurrency(string from, string to, double amount)
         {
             var response = await GetRequestData<CurrencyEntity>($"/latest", null, new Dictionary<string, string>
@@ -33,19 +44,9 @@ namespace CC.DataServices.Services
             return response;
         }
 
-        public async Task<CurrencyEntity> GetHistoricalRates(string from, string startDate, string endDate)
+        public async Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime endDate)
         {
-            var response = await GetRequestData<CurrencyEntity>($"/{startDate}..{endDate}", null, new Dictionary<string, string>
-            {
-                {"from", from }
-            });
-
-            return response;
-        }
-
-        public async Task<CurrencyEntity> GetLatestRates(string from)
-        {
-            var response = await GetRequestData<CurrencyEntity>($"/latest", null, new Dictionary<string, string>
+            var response = await GetRequestData<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{endDate.GetDateString()}", null, new Dictionary<string, string>
             {
                 {"from", from }
             });

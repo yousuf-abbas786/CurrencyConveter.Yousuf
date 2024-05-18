@@ -4,7 +4,7 @@ using System;
 
 namespace CC.WebAPIs.Infrastructure
 {
-    public static class IEndpointRouteBuilderExtensions
+    public static class EndpointRouteBuilderExtensions
     {
         public static IEndpointRouteBuilder MapGet(this IEndpointRouteBuilder builder, Delegate handler, string pattern = "")
         {

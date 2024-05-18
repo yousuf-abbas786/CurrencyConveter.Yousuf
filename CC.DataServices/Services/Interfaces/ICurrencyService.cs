@@ -12,6 +12,6 @@ namespace CC.DataServices.Services.Interfaces
     {
         Task<CurrencyEntity> GetLatestRates(string from);
         Task<CurrencyEntity> ConvertCurrency(string from, string to, double amount);
-        Task<CurrencyEntity> GetHistoricalRates(string from, string startDate, string endDate);
+        Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime endDate);
     }
 }
