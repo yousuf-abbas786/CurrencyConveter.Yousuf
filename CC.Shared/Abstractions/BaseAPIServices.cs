@@ -1,5 +1,4 @@
-﻿using CC.Shared.CurrencyAPIEntities;
-
+﻿
 using Flurl;
 using Flurl.Http;
 using Flurl.Http.Configuration;

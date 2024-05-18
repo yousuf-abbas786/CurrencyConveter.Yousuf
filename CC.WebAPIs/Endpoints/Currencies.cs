@@ -15,7 +15,7 @@ namespace CC.WebAPIs.Endpoints
                 .MapGet(GetHistoricalRates, "historical");
         }
 
-        public async Task<IResult> GetLatestRates(string? from, string? to, ICurrencyService currencyServices)
+        public async Task<IResult> GetLatestRates(string? from, ICurrencyService currencyServices)
         {
 
             var res = await currencyServices.GetLatestRates(from);
@@ -51,9 +51,8 @@ namespace CC.WebAPIs.Endpoints
         public async Task<IResult> GetHistoricalRates(string? from, DateTime? startDate, DateTime? endDate, ICurrencyService currencyServices)
         {
             ArgumentNullException.ThrowIfNull(startDate, "startDate");
-            ArgumentNullException.ThrowIfNull(endDate, "endDate");
 
-            var res = await currencyServices.GetHistoricalRates(from, startDate.Value, endDate.Value);
+            var res = await currencyServices.GetHistoricalRates(from, startDate.Value, endDate);
 
             if (res != null)
                 return TypedResults.Extensions.APIResult_Ok(res);

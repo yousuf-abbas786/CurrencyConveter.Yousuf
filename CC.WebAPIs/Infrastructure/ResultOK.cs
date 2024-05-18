@@ -1,5 +1,4 @@
 ﻿
-using CC.Shared.CurrencyAPIEntities;
 using CC.Shared.Models;
 
 using Microsoft.AspNetCore.Components.Forms;

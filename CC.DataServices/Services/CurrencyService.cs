@@ -1,7 +1,7 @@
 ﻿using CC.DataServices.Services.Interfaces;
 using CC.Shared;
 using CC.Shared.Abstractions;
-using CC.Shared.CurrencyAPIEntities;
+using CC.Shared.Entities.CurrencyAPIEntities;
 using CC.Shared.ExtAPIEntities;
 
 using Flurl.Http.Configuration;
@@ -44,9 +44,9 @@ namespace CC.DataServices.Services
             return response;
         }
 
-        public async Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime endDate)
+        public async Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime? endDate)
         {
-            var response = await GetRequestData<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{endDate.GetDateString()}", null, new Dictionary<string, string>
+            var response = await GetRequestData<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{(endDate.HasValue ? endDate.Value.GetDateString() : string.Empty) }", null, new Dictionary<string, string>
             {
                 {"from", from }
             });
