@@ -34,7 +34,7 @@ namespace CC.Shared.Abstractions
             _cacheHelper = cacheHelper;
         }
 
-        protected async Task<T> GetRequestDataAsync<T>(string url, Dictionary<string, string>? queryString = null)
+        protected async Task<T> GetRequestDataAsync<T>(string url, int maxRetries, double slidingCacheIntervalInSeconds, double absoluteCacheIntervalInSeconds, Dictionary<string, string>? queryString = null)
         {
             if (string.IsNullOrEmpty(url))
                 throw new Exception("URL for request is null");
@@ -53,9 +53,9 @@ namespace CC.Shared.Abstractions
 
             var response = await _cacheHelper.GetCachedDataAsync(
                 url,
-                () => GetRequestWithRetriesAsync<T>(url, 3), 
-                TimeSpan.FromMinutes(2), 
-                TimeSpan.FromSeconds(20)
+                () => GetRequestWithRetriesAsync<T>(url, maxRetries), 
+                TimeSpan.FromSeconds(slidingCacheIntervalInSeconds), 
+                TimeSpan.FromSeconds(absoluteCacheIntervalInSeconds)
                 );
 
             //var response = await GetRequestWithRetries<T>(url, 3);

@@ -19,13 +19,16 @@ namespace CC.DataServices.Services
 {
     public class CurrencyService : BaseAPIServices, ICurrencyService
     {
+        private readonly int SLIDING_CACHE_INTERVAL_IN_SECONDS = 30;
+        private readonly int ABSOLUTE_CACHE_INTERVAL_IN_SECONDS = 2 * 60;
+        private readonly int MAX_RETRIES = 3;
         public CurrencyService(ILogger<CurrencyService> logger, IFlurlClientCache clients, CacheHelper cacheHelper) : base(logger, clients, "FrankfurterAPI", cacheHelper)
         {
         }
 
         public async Task<CurrencyEntity> GetLatestRatesAsync(string from)
         {
-            var response = await GetRequestDataAsync<CurrencyEntity>($"/latest", new Dictionary<string, string>
+            var response = await GetRequestDataAsync<CurrencyEntity>($"/latest", MAX_RETRIES, SLIDING_CACHE_INTERVAL_IN_SECONDS, ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, new Dictionary<string, string>
             {
                 {"from", from }
             });
@@ -35,7 +38,7 @@ namespace CC.DataServices.Services
 
         public async Task<CurrencyEntity> ConvertCurrencyAsync(string from, string to, double amount)
         {
-            var response = await GetRequestDataAsync<CurrencyEntity>($"/latest", new Dictionary<string, string>
+            var response = await GetRequestDataAsync<CurrencyEntity>($"/latest", MAX_RETRIES, SLIDING_CACHE_INTERVAL_IN_SECONDS, ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, new Dictionary<string, string>
             {
                 {"from", from },
                 {"to", to },
@@ -47,7 +50,9 @@ namespace CC.DataServices.Services
 
         public async Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, DateTime startDate, DateTime? endDate, int page, int pageSize)
         {
-            var response = await GetRequestDataAsync<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{(endDate.HasValue ? endDate.Value.GetDateString() : string.Empty) }", new Dictionary<string, string>
+            string fromDate = startDate.GetDateString();
+            string toDate = endDate.HasValue ? endDate.Value.GetDateString() : string.Empty;
+            var response = await GetRequestDataAsync<CurrencyHistoricalEntity>($"/{fromDate}..{toDate}", MAX_RETRIES, SLIDING_CACHE_INTERVAL_IN_SECONDS, ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, new Dictionary<string, string>
             {
                 {"from", from }
             });
