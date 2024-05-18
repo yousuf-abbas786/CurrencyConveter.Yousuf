@@ -14,6 +14,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace CC.Shared.Abstractions
 {
     public abstract class BaseAPIServices
@@ -44,7 +46,8 @@ namespace CC.Shared.Abstractions
 
             _logger.LogInformation($"GetRequestData - URL: {url}");
 
-            var response = await _flurlClient.Request(url).GetJsonAsync<T>();
+            var response = await GetRequestWithRetries<T>(url, 3);
+
             if (response == null)
                 throw new Exception($"GetRequestData Error: Check requested API: {url}, Response: {JsonConvert.SerializeObject(response)}");
 
@@ -61,6 +64,31 @@ namespace CC.Shared.Abstractions
                 throw new Exception($"PostRequestData Error: Check requested API: {url}, Body: {JsonConvert.SerializeObject(data)}, Response: {response?.ResponseMessage}");
 
             return await response.GetJsonAsync<T>();
+        }
+
+        protected async Task<T> GetRequestWithRetries<T>(string url, int maxRetries)
+        {
+            T response = default(T);
+            for (int i = 0; i < maxRetries; i++)
+            {
+                try
+                {
+                    response = await _flurlClient.Request(url).GetJsonAsync<T>();
+                    return response;
+                }
+                catch (FlurlHttpException ex)
+                {
+                    _logger.LogError($"Error returned from {ex.Call.Request.Url}, Error: {ex.Message}");
+                }
+                await Task.Delay(1000);
+            }
+
+            return response;
+        }
+
+        protected async Task<T> RequestWithoutRetries<T>(string url)
+        {
+            return await _flurlClient.Request(url).GetJsonAsync<T>();
         }
     }
 }

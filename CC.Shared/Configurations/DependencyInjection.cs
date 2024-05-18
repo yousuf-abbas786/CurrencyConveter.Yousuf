@@ -11,8 +11,7 @@ namespace CC.Shared.Configurations
     {
         public static IServiceCollection AddShared(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<IFlurlClientCache>(sp => new FlurlClientCache()
-                .Add("FrankfurterAPI", configuration["APIBaseURLs:FrankfurterAPI"]));
+            services.AddSingleton<IFlurlClientCache>(sp => new FlurlClientCache().Add("FrankfurterAPI", configuration["APIBaseURLs:FrankfurterAPI"]));
 
             return services;
         }
