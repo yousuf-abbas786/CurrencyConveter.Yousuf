@@ -51,8 +51,7 @@ namespace CC.DataServices.Services
                 {"from", from }
             });
 
-            var pagedRates = response.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
-            response.HistoricalRates = pagedRates;
+            response.HistoricalRates = response.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
 
             return response;
         }
