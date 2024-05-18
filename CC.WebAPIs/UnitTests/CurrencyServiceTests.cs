@@ -18,7 +18,6 @@ namespace CC.WebAPIs.UnitTests
             _client = _factory.CreateClient();
         }
 
-        // Your tests here
         [Fact]
         public async Task GetLatestRates_ReturnsRates()
         {
