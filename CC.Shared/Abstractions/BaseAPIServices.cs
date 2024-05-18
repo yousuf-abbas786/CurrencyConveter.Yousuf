@@ -27,19 +27,10 @@ namespace CC.Shared.Abstractions
             _flurlClient = clients.Get(baseUrlName);
         }
 
-        protected async Task<T> GetRequestData<T>(string url, List<string> routeparam = null, Dictionary<string, string>? queryString = null)
+        protected async Task<T> GetRequestData<T>(string url, Dictionary<string, string>? queryString = null)
         {
             if (string.IsNullOrEmpty(url))
                 throw new Exception("URL for request is null");
-
-            if (routeparam != null)
-            {
-                var count = 0;
-                foreach (var key in routeparam)
-                {
-                    url.Replace("{" + count++ + "}", key);
-                }
-            }
 
             if (queryString != null)
             {
