@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.WebAPIs", "CC.WebAPIs\CC.WebAPIs.csproj", "{965DB315-3975-46DF-9D24-6A6FD594D1F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CC.WebAPIs", "CC.WebAPIs\CC.WebAPIs.csproj", "{965DB315-3975-46DF-9D24-6A6FD594D1F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.DataServices", "CC.DataServices\CC.DataServices.csproj", "{0A49F2CA-175D-4142-A8E5-5F3D4A5168EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CC.DataServices", "CC.DataServices\CC.DataServices.csproj", "{0A49F2CA-175D-4142-A8E5-5F3D4A5168EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Shared", "CC.Shared\CC.Shared.csproj", "{FB475635-3D97-475C-9165-013DB1D147E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CC.Shared", "CC.Shared\CC.Shared.csproj", "{FB475635-3D97-475C-9165-013DB1D147E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
