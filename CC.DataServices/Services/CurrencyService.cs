@@ -44,12 +44,15 @@ namespace CC.DataServices.Services
             return response;
         }
 
-        public async Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime? endDate)
+        public async Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime? endDate, int page, int pageSize)
         {
             var response = await GetRequestData<CurrencyHistoricalEntity>($"/{startDate.GetDateString()}..{(endDate.HasValue ? endDate.Value.GetDateString() : string.Empty) }", null, new Dictionary<string, string>
             {
                 {"from", from }
             });
+
+            var pagedRates = response.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
+            response.HistoricalRates = pagedRates;
 
             return response;
         }

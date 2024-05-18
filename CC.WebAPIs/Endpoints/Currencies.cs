@@ -48,11 +48,13 @@ namespace CC.WebAPIs.Endpoints
             return TypedResults.Extensions.APIResult_Ok(null);
         }
 
-        public async Task<IResult> GetHistoricalRates(string? from, DateTime? startDate, DateTime? endDate, ICurrencyService currencyServices)
+        public async Task<IResult> GetHistoricalRates(string? from, DateTime? startDate, DateTime? endDate, int? page, int? pageSize, ICurrencyService currencyServices)
         {
             ArgumentNullException.ThrowIfNull(startDate, "startDate");
 
-            var res = await currencyServices.GetHistoricalRates(from, startDate.Value, endDate);
+            page = page ?? 1;
+            pageSize = pageSize ?? 10;
+            var res = await currencyServices.GetHistoricalRates(from, startDate.Value, endDate, page.Value, pageSize.Value);
 
             if (res != null)
                 return TypedResults.Extensions.APIResult_Ok(res);
