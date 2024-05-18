@@ -58,8 +58,6 @@ namespace CC.Shared.Abstractions
                 TimeSpan.FromSeconds(absoluteCacheIntervalInSeconds)
                 );
 
-            //var response = await GetRequestWithRetries<T>(url, 3);
-
             if (response == null)
                 throw new Exception($"GetRequestData Error: Check requested API: {url}, Response: {JsonConvert.SerializeObject(response)}");
 
