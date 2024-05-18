@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CC.Shared.Entities.CurrencyAPIEntities;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,6 +14,17 @@ namespace CC.Shared
         public static string GetDateString(this DateTime dateTime)
         {
             return dateTime.ToString("yyyy-MM-dd");
+        }
+
+        public static CurrencyHistoricalEntity Clone(this CurrencyHistoricalEntity currencyHistoricalEntity)
+        {
+            return new CurrencyHistoricalEntity
+            {
+                Amount = currencyHistoricalEntity.Amount,
+                Base = currencyHistoricalEntity.Base,
+                date = currencyHistoricalEntity.date,
+                HistoricalRates = currencyHistoricalEntity.HistoricalRates
+            };
         }
     }
 }

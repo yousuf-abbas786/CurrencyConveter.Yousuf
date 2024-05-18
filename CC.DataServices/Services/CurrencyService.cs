@@ -71,18 +71,19 @@ namespace CC.DataServices.Services
                     $"/{fromDate}..{toDate}", 
                     MAX_RETRIES, SLIDING_CACHE_INTERVAL_IN_SECONDS, 
                     ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, 
-                    $"GetHistoricalRatesAsync_{from}_{fromDate}_{startDate}_{page}_{pageSize}", 
+                    $"GetHistoricalRatesAsync_{from}_{fromDate}_{startDate}", 
                     new Dictionary<string, string>
                     {
                         {"from", from }
                     }
                 );
 
-            response.HistoricalRates = response.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
+            var clonedResponse = response.Clone();
+            clonedResponse.HistoricalRates = clonedResponse.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
 
-            return response;
+            return clonedResponse;
         }
-        
+
     }
 
 }
