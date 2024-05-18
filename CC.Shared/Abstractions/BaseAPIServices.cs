@@ -34,7 +34,7 @@ namespace CC.Shared.Abstractions
             _cacheHelper = cacheHelper;
         }
 
-        protected async Task<T> GetRequestDataAsync<T>(string url, int maxRetries, double slidingCacheIntervalInSeconds, double absoluteCacheIntervalInSeconds, Dictionary<string, string>? queryString = null)
+        protected async Task<T> GetRequestDataAsync<T>(string url, int maxRetries, double slidingCacheIntervalInSeconds, double absoluteCacheIntervalInSeconds, string cacheKey, Dictionary<string, string>? queryString = null)
         {
             if (string.IsNullOrEmpty(url))
                 throw new Exception("URL for request is null");
@@ -51,12 +51,13 @@ namespace CC.Shared.Abstractions
 
             _logger.LogInformation($"GetRequestData - URL: {url}");
 
-            var response = await _cacheHelper.GetCachedDataAsync(
-                url,
+            var response = await _cacheHelper.GetCachedDataAsync
+            (
+                cacheKey,
                 () => GetRequestWithRetriesAsync<T>(url, maxRetries), 
                 TimeSpan.FromSeconds(slidingCacheIntervalInSeconds), 
                 TimeSpan.FromSeconds(absoluteCacheIntervalInSeconds)
-                );
+            );
 
             if (response == null)
                 throw new Exception($"GetRequestData Error: Check requested API: {url}, Response: {JsonConvert.SerializeObject(response)}");
