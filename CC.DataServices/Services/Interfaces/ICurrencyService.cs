@@ -9,8 +9,8 @@ namespace CC.DataServices.Services.Interfaces
 {
     public interface ICurrencyService
     {
-        Task<CurrencyEntity> GetLatestRates(string from);
-        Task<CurrencyEntity> ConvertCurrency(string from, string to, double amount);
-        Task<CurrencyHistoricalEntity> GetHistoricalRates(string from, DateTime startDate, DateTime? endDate, int page, int pageSize);
+        Task<CurrencyEntity> GetLatestRatesAsync(string from);
+        Task<CurrencyEntity> ConvertCurrencyAsync(string from, string to, double amount);
+        Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, DateTime startDate, DateTime? endDate, int page, int pageSize);
     }
 }

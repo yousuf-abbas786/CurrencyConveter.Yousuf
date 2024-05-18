@@ -18,7 +18,7 @@ namespace CC.WebAPIs.Endpoints
         public async Task<IResult> GetLatestRates(string? from, ICurrencyService currencyServices)
         {
 
-            var res = await currencyServices.GetLatestRates(from);
+            var res = await currencyServices.GetLatestRatesAsync(from);
 
             if (res != null)
                 return TypedResults.Extensions.APIResult_Ok(res);
@@ -35,7 +35,7 @@ namespace CC.WebAPIs.Endpoints
             if (currenciesToExclude.Contains(from) || currenciesToExclude.Contains(to))
                 return TypedResults.Extensions.APIResult_BadRequest();
             
-            var res = await currencyServices.ConvertCurrency(from, to, amount.Value);
+            var res = await currencyServices.ConvertCurrencyAsync(from, to, amount.Value);
 
             if (res != null)
             { 
@@ -54,7 +54,7 @@ namespace CC.WebAPIs.Endpoints
 
             page = page ?? 1;
             pageSize = pageSize ?? 10;
-            var res = await currencyServices.GetHistoricalRates(from, startDate.Value, endDate, page.Value, pageSize.Value);
+            var res = await currencyServices.GetHistoricalRatesAsync(from, startDate.Value, endDate, page.Value, pageSize.Value);
 
             if (res != null)
                 return TypedResults.Extensions.APIResult_Ok(res);
