@@ -52,7 +52,8 @@ namespace CC.DataServices.Services
 
             var response = await GetRequestDataAsync<CurrencyHistoricalEntity>(
                     $"/{fromDate}..{toDate}", 
-                    MAX_RETRIES, SLIDING_CACHE_INTERVAL_IN_SECONDS, 
+                    MAX_RETRIES, 
+                    SLIDING_CACHE_INTERVAL_IN_SECONDS, 
                     ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, 
                     $"GetHistoricalRatesAsync_{from}_{to}_{fromDate}_{toDate}", 
                     new Dictionary<string, string>
