@@ -1,6 +1,8 @@
 ﻿using CC.DataServices.Services.Interfaces;
 using CC.WebAPIs.Infrastructure;
 
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using static MongoDB.Driver.WriteConcern;
 
 namespace CC.WebAPIs.Endpoints
@@ -15,10 +17,9 @@ namespace CC.WebAPIs.Endpoints
                 .MapGet(GetHistoricalRates, "historical");
         }
 
-        public async Task<IResult> GetLatestRates(string? from, ICurrencyService currencyServices)
+        public async Task<IResult> GetLatestRates(string? from, string? to, ICurrencyService currencyServices)
         {
-
-            var res = await currencyServices.GetLatestRatesAsync(from);
+            var res = await currencyServices.GetLatestRatesAsync(from, to, 1);
 
             if (res != null)
                 return TypedResults.Extensions.APIResult_Ok(res);
@@ -35,7 +36,7 @@ namespace CC.WebAPIs.Endpoints
             if (currenciesToExclude.Contains(from) || currenciesToExclude.Contains(to))
                 return TypedResults.Extensions.APIResult_BadRequest();
             
-            var res = await currencyServices.ConvertCurrencyAsync(from, to, amount.Value);
+            var res = await currencyServices.GetLatestRatesAsync(from, to, amount.Value);
 
             if (res != null)
             { 
@@ -48,16 +49,16 @@ namespace CC.WebAPIs.Endpoints
             return TypedResults.Extensions.APIResult_Ok(null);
         }
 
-        public async Task<IResult> GetHistoricalRates(string? from, DateTime? startDate, DateTime? endDate, int? page, int? pageSize, ICurrencyService currencyServices)
+        public async Task<IResult> GetHistoricalRates(string? from, string? to, DateTime? startDate, DateTime? endDate, int? page, int? pageSize, ICurrencyService currencyServices)
         {
             ArgumentNullException.ThrowIfNull(startDate, "startDate");
 
             page = page ?? 1;
             pageSize = pageSize ?? 10;
-            var res = await currencyServices.GetHistoricalRatesAsync(from, startDate.Value, endDate, page.Value, pageSize.Value);
+            var res = await currencyServices.GetHistoricalRatesAsync(from, to, startDate.Value, endDate, page.Value, pageSize.Value);
 
             if (res != null)
-                return TypedResults.Extensions.APIResult_Ok(res);
+                return TypedResults.Extensions.APIResultPage_Ok(res, res.PageNo, res.PageSize, res.TotalRecords);
 
             return TypedResults.Extensions.APIResult_Ok(null);
         }

@@ -41,3 +41,5 @@ app.UseHttpsRedirection();
 app.UseExceptionHandler(o => { });
 app.MapEndpoints();
 app.Run();
+
+public partial class Program { }

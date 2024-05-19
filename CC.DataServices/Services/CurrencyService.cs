@@ -19,38 +19,21 @@ namespace CC.DataServices.Services
 {
     public class CurrencyService : BaseAPIServices, ICurrencyService
     {
-        private readonly int SLIDING_CACHE_INTERVAL_IN_SECONDS = 30;
-        private readonly int ABSOLUTE_CACHE_INTERVAL_IN_SECONDS = 2 * 60;
-        private readonly int MAX_RETRIES = 3;
+        private int SLIDING_CACHE_INTERVAL_IN_SECONDS = 30;
+        private int ABSOLUTE_CACHE_INTERVAL_IN_SECONDS = 2 * 60;
+        private int MAX_RETRIES = 3;
         public CurrencyService(ILogger<CurrencyService> logger, IFlurlClientCache clients, CacheHelper cacheHelper) : base(logger, clients, "FrankfurterAPI", cacheHelper)
         {
         }
 
-        public async Task<CurrencyEntity> GetLatestRatesAsync(string from)
+        public async Task<CurrencyEntity> GetLatestRatesAsync(string from, string to, double amount)
         {
             var response = await GetRequestDataAsync<CurrencyEntity>(
                     $"/latest", 
                     MAX_RETRIES, 
                     SLIDING_CACHE_INTERVAL_IN_SECONDS, 
-                    ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, 
-                    $"GetLatestRatesAsync_{from}", 
-                    new Dictionary<string, string>
-                    {
-                        {"from", from }
-                    }
-                );
-
-            return response;
-        }
-
-        public async Task<CurrencyEntity> ConvertCurrencyAsync(string from, string to, double amount)
-        {
-            var response = await GetRequestDataAsync<CurrencyEntity>(
-                    $"/latest", 
-                    MAX_RETRIES, 
-                    SLIDING_CACHE_INTERVAL_IN_SECONDS, 
-                    ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, 
-                    $"ConvertCurrencyAsync_{from}_{to}_{amount}", 
+                    ABSOLUTE_CACHE_INTERVAL_IN_SECONDS,
+                    $"GetLatestRatesAsync_{from}_{to}_{amount}",
                     new Dictionary<string, string>
                     {
                         {"from", from },
@@ -62,7 +45,7 @@ namespace CC.DataServices.Services
             return response;
         }
 
-        public async Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, DateTime startDate, DateTime? endDate, int page, int pageSize)
+        public async Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize)
         {
             string fromDate = startDate.GetDateString();
             string toDate = endDate.HasValue ? endDate.Value.GetDateString() : string.Empty;
@@ -71,17 +54,37 @@ namespace CC.DataServices.Services
                     $"/{fromDate}..{toDate}", 
                     MAX_RETRIES, SLIDING_CACHE_INTERVAL_IN_SECONDS, 
                     ABSOLUTE_CACHE_INTERVAL_IN_SECONDS, 
-                    $"GetHistoricalRatesAsync_{from}_{fromDate}_{startDate}", 
+                    $"GetHistoricalRatesAsync_{from}_{to}_{fromDate}_{toDate}", 
                     new Dictionary<string, string>
                     {
-                        {"from", from }
+                        {"from", from },
+                        {"to", to }
                     }
                 );
 
             var clonedResponse = response.Clone();
             clonedResponse.HistoricalRates = clonedResponse.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
+            clonedResponse.PageNo = page;
+            clonedResponse.PageSize = pageSize;
+            clonedResponse.TotalRecords = response.HistoricalRates.Count;
 
             return clonedResponse;
+        }
+
+        public async Task<Dictionary<string, string>> GetCurrencies()
+        {
+            SLIDING_CACHE_INTERVAL_IN_SECONDS = 60 * 24;
+            ABSOLUTE_CACHE_INTERVAL_IN_SECONDS = 60 * 24;
+
+            var response = await GetRequestDataAsync<Dictionary<string, string>>(
+                    $"/currencies",
+                    MAX_RETRIES,
+                    SLIDING_CACHE_INTERVAL_IN_SECONDS,
+                    ABSOLUTE_CACHE_INTERVAL_IN_SECONDS,
+                    "GetCurrencies"
+                );
+
+            return response;
         }
 
     }

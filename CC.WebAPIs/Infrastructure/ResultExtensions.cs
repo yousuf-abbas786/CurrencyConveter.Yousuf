@@ -13,6 +13,13 @@ namespace CC.WebAPIs.Infrastructure
             return new ResultOK(data);
         }
 
+        public static IResult APIResultPage_Ok(this IResultExtensions resultExtensions, object data, int pageno, int pagesize, long totalrecords)
+        {
+            ArgumentNullException.ThrowIfNull(resultExtensions);
+
+            return new ResultPageOK(data, pageno, pagesize, totalrecords);
+        }
+
         public static IResult APIResult_Error(this IResultExtensions resultExtensions)
         {
             ArgumentNullException.ThrowIfNull(resultExtensions);

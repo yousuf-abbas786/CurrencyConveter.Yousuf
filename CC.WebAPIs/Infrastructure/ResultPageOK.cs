@@ -7,19 +7,26 @@ using Microsoft.Extensions.Options;
 
 using System.Text.Json;
 
+
 namespace CC.WebAPIs.Infrastructure
 {
-    public class ResultOK : IResult
+    public class ResultPageOK : IResult
     {
+
         private readonly object res;
-        public ResultOK(object _res)
+        private readonly object pageno;
+        private readonly object pagesize;
+        private readonly object totalrecords;
+        public ResultPageOK(object _res, int _pageno, int _pagesize, long _totalrecords)
         {
             res = _res;
+            pageno = _pageno;
+            pagesize = _pagesize;
+            totalrecords = _totalrecords;
         }
-
         public Task ExecuteAsync(HttpContext httpContext)
         {
-            var result = new APIResult();
+            var result = new APIPageResult();
 
             if (res != null)
             {
@@ -40,9 +47,8 @@ namespace CC.WebAPIs.Infrastructure
             }
 
 
-            return httpContext.Response.WriteAsJsonAsync<APIResult>(result);
+            return httpContext.Response.WriteAsJsonAsync<APIPageResult>(result);
 
         }
     }
-
 }

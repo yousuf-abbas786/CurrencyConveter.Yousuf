@@ -14,6 +14,7 @@ namespace CC.WebAPIs.Infrastructure
                 .MapGroup($"/api/{groupName}")
                 .WithGroupName("v1")
                 .WithTags(groupName)
+                .AddEndpointFilter<EndpointCurrenciesFilter>()
                 .WithOpenApi();
         }
 

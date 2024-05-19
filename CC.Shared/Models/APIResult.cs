@@ -12,4 +12,13 @@ namespace CC.Shared.Models
         public string Message { get; set; } = "Ok";
         public object Data { get; set; } = null;
     }
+
+    public class APIPageResult :APIResult
+    {
+        public int TotalRecords { get; set; }
+
+        public int PageNo { get; set; }
+
+        public int PageSize { get; set; }
+    }
 }

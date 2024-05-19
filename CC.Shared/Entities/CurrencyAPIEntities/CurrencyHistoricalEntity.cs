@@ -18,9 +18,13 @@ namespace CC.Shared.Entities.CurrencyAPIEntities
         public string Base { get; set; }
 
         [JsonProperty("date")]
-        public string date { get; set; }
+        public string Date { get; set; }
 
         [JsonPropertyName("rates")]
         public Dictionary<string, Dictionary<string, double>> HistoricalRates { get; set; }
+
+        public int PageNo { get; set; }
+        public int PageSize { get; set; }
+        public long TotalRecords { get; set; }
     }
 }

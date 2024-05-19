@@ -22,7 +22,7 @@ namespace CC.Shared
             {
                 Amount = currencyHistoricalEntity.Amount,
                 Base = currencyHistoricalEntity.Base,
-                date = currencyHistoricalEntity.date,
+                Date = currencyHistoricalEntity.Date,
                 HistoricalRates = currencyHistoricalEntity.HistoricalRates
             };
         }
