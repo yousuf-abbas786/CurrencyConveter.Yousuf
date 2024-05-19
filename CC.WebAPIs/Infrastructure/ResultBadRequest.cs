@@ -14,12 +14,15 @@ namespace CC.WebAPIs.Infrastructure
 
         public Task ExecuteAsync(HttpContext httpContext)
         {
+            httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
             var result = new APIResult
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
                 Message =message,
                 Data = null
             };
+
 
             return httpContext.Response.WriteAsJsonAsync<APIResult>(result);
         }

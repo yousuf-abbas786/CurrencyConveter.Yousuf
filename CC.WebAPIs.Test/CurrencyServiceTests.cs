@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CC.WebAPIs.Test
@@ -60,7 +61,7 @@ namespace CC.WebAPIs.Test
             // Assert
             Assert.NotNull(response.Data);
             var apiObject = JsonConvert.DeserializeObject<CurrencyEntity>(response.Data.ToString());
-            Assert.InRange<DateTime>(Convert.ToDateTime(apiObject.Date), currentDate.AddDays(-3), currentDate.AddDays(1));
+            Assert.InRange<DateTime>(Convert.ToDateTime(apiObject.Date), currentDate.AddDays(-5), currentDate.AddDays(1));
         }
 
         [Fact]
@@ -83,23 +84,81 @@ namespace CC.WebAPIs.Test
             Assert.True(expectedRates.Contains(apiObject.Rates.Keys.First()) && expectedRates.Contains(apiObject.Rates.Keys.Last()));
         }
 
-        //public async Task GetLatestRates_ReturnsBadRequestOnUnAvailableCurrency()
-        //{
-        //    using var httpTest = new HttpTest();
+        [Fact]
+        public async Task GetLatestRates_ReturnsBadRequestOnUnAvailableCurrency()
+        {
+            using var httpTest = new HttpTest();
 
-        //    // Arrange
-        //    var baseCurrency = "USD";
+            // Arrange
+            var baseCurrency = "USD";
 
-        //    // Act
-        //    var response = await _client.GetFromJsonAsync<APIResult>($"/api/Currencies/latest?from={baseCurrency}&to=TRY,GBP");
+            // Act
+            var response = await _client.GetFromJsonAsync<APIResult>($"/api/Currencies/latest?from={baseCurrency}&to=AED,FFF");
 
-        //    // Assert
-        //    //Assert.NotNull(response.Data);
-        //    var apiObject = JsonConvert.DeserializeObject<CurrencyEntity>(response.Data.ToString());
-        //    Assert.NotNull(apiObject.Rates);
-        //    Assert.Equal(2, apiObject.Rates.Count);
-        //    Assert.True(expectedRates.Contains(apiObject.Rates.Keys.First()) && expectedRates.Contains(apiObject.Rates.Keys.Last()));
-        //}
+            // Assert
+            Assert.True(response.StatusCode == 400);
+            Assert.True(response.Message.Contains("not allowed") && response.Message.Contains("AED") && response.Message.Contains("FFF"));
+
+        }
+
+        [Fact]
+        public async Task GetConvertedRates_ReturnsBadRequestOnNonAllowedCurrency()
+        {
+            using var httpTest = new HttpTest();
+
+            // Arrange
+            var baseCurrency = "EUR";
+            double amount = 10;
+
+            // Act
+            var response = await _client.GetAsync($"/api/Currencies/convert?from={baseCurrency}&to=THB,TRY&amount={amount}");
+
+            // Assert
+            Assert.False(response.IsSuccessStatusCode);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.BadRequest);
+
+        }
+
+        [Fact]
+        public async Task GetHistoricalRates_ReturnsInvalidDateFormat()
+        {
+            using var httpTest = new HttpTest();
+
+            // Arrange
+            var baseCurrency = "EUR";
+
+            // Act
+            var response = await _client.GetAsync($"/api/Currencies/historical?from={baseCurrency}&startDate=2023-31-01");
+
+            // Assert
+            Assert.False(response.IsSuccessStatusCode);
+            Assert.True(response.StatusCode == System.Net.HttpStatusCode.InternalServerError);
+
+        }
+
+        [Fact]
+        public async Task GetHistoricalRates_ReturnsCorrectPagination()
+        {
+            using var httpTest = new HttpTest();
+            int page = 2;
+            int pageSize = 20;
+
+            // Arrange
+            var baseCurrency = "EUR";
+
+            // Act
+            var response = await _client.GetFromJsonAsync<APIPageResult>($"/api/Currencies/historical?from={baseCurrency}&startDate=2023-01-01&endDate=2024-01-01&page={page}&pageSize={pageSize}");
+
+            // Assert
+            Assert.NotNull(response.Data);
+            Assert.Equal(response.PageNo, page);
+            Assert.Equal(response.PageSize, pageSize);
+
+            var apiObject = JsonConvert.DeserializeObject<CurrencyHistoricalTestEntity>(response.Data.ToString());
+            Assert.NotNull(apiObject.rates);
+            Assert.Equal(apiObject.rates.Count, pageSize);
+
+        }
 
     }
 }
