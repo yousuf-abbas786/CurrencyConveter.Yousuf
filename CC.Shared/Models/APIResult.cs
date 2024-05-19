@@ -15,7 +15,7 @@ namespace CC.Shared.Models
 
     public class APIPageResult :APIResult
     {
-        public int TotalRecords { get; set; }
+        public long TotalRecords { get; set; }
 
         public int PageNo { get; set; }
 

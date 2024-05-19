@@ -14,9 +14,9 @@ namespace CC.WebAPIs.Infrastructure
     {
 
         private readonly object res;
-        private readonly object pageno;
-        private readonly object pagesize;
-        private readonly object totalrecords;
+        private readonly int pageno;
+        private readonly int pagesize;
+        private readonly long totalrecords;
         public ResultPageOK(object _res, int _pageno, int _pagesize, long _totalrecords)
         {
             res = _res;
@@ -31,6 +31,9 @@ namespace CC.WebAPIs.Infrastructure
             if (res != null)
             {
                 result.Data = res;
+                result.PageNo = pageno;
+                result.PageSize = pagesize;
+                result.TotalRecords = totalrecords;
             }
 
             if (res == null)

@@ -14,16 +14,16 @@ namespace CC.Shared.Entities.CurrencyAPIEntities
 {
     public class CurrencyEntity
     {
-        [JsonProperty("amount")]
+        [JsonPropertyName("amount")]
         public float Amount { get; set; }
 
-        [JsonProperty("base")]
+        [JsonPropertyName("base")]
         public string Base { get; set; }
 
-        [JsonProperty("date")]
+        [JsonPropertyName("date")]
         public string Date { get; set; }
 
-        [JsonProperty("rates")]
+        [JsonPropertyName("rates")]
         public Dictionary<string, double> Rates { get; set; }
     }
 

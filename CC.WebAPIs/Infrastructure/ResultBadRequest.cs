@@ -6,12 +6,18 @@ namespace CC.WebAPIs.Infrastructure
 {
     public class ResultBadRequest : IResult
     {
+        private readonly string message;
+        public ResultBadRequest(string _message)
+        {
+            message = _message;
+        }
+
         public Task ExecuteAsync(HttpContext httpContext)
         {
             var result = new APIResult
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
-                Message = "Conversion involving specified currencies is not allowed.",
+                Message =message,
                 Data = null
             };
 

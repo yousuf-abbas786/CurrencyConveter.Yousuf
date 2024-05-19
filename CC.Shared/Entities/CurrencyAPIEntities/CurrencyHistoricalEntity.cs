@@ -11,20 +11,29 @@ namespace CC.Shared.Entities.CurrencyAPIEntities
 {
     public class CurrencyHistoricalEntity
     {
-        [JsonProperty("amount")]
+        [JsonPropertyName("amount")]
         public float Amount { get; set; }
 
-        [JsonProperty("base")]
+        [JsonPropertyName("base")]
         public string Base { get; set; }
 
-        [JsonProperty("date")]
-        public string Date { get; set; }
+        [JsonPropertyName("start_date")]
+        public string StartDate { get; set; }
+
+        [JsonPropertyName("end_date")]
+        public string EndDate { get; set; }
 
         [JsonPropertyName("rates")]
         public Dictionary<string, Dictionary<string, double>> HistoricalRates { get; set; }
 
-        public int PageNo { get; set; }
-        public int PageSize { get; set; }
-        public long TotalRecords { get; set; }
+
+    }
+
+    public class CurrencyHistoricalEntityDto
+    {
+        public CurrencyHistoricalEntity currencyHistoricalEntity { get; set; }
+        public int pageNo { get; set; }
+        public int pageSize { get; set; }
+        public long totalRecords { get; set; }
     }
 }

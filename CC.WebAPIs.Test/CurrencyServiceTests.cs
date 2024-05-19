@@ -83,5 +83,23 @@ namespace CC.WebAPIs.Test
             Assert.True(expectedRates.Contains(apiObject.Rates.Keys.First()) && expectedRates.Contains(apiObject.Rates.Keys.Last()));
         }
 
+        //public async Task GetLatestRates_ReturnsBadRequestOnUnAvailableCurrency()
+        //{
+        //    using var httpTest = new HttpTest();
+
+        //    // Arrange
+        //    var baseCurrency = "USD";
+
+        //    // Act
+        //    var response = await _client.GetFromJsonAsync<APIResult>($"/api/Currencies/latest?from={baseCurrency}&to=TRY,GBP");
+
+        //    // Assert
+        //    //Assert.NotNull(response.Data);
+        //    var apiObject = JsonConvert.DeserializeObject<CurrencyEntity>(response.Data.ToString());
+        //    Assert.NotNull(apiObject.Rates);
+        //    Assert.Equal(2, apiObject.Rates.Count);
+        //    Assert.True(expectedRates.Contains(apiObject.Rates.Keys.First()) && expectedRates.Contains(apiObject.Rates.Keys.Last()));
+        //}
+
     }
 }

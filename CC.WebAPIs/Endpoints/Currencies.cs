@@ -3,6 +3,8 @@ using CC.WebAPIs.Infrastructure;
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using System.Text;
+
 using static MongoDB.Driver.WriteConcern;
 
 namespace CC.WebAPIs.Endpoints
@@ -29,12 +31,34 @@ namespace CC.WebAPIs.Endpoints
 
         public async Task<IResult> ConvertCurrency(string? from, string? to, double? amount, ICurrencyService currencyServices)
         {
-            var currenciesToExclude = new[] { "TRY", "PLN", "THB", "MXN" };
-
             ArgumentNullException.ThrowIfNull(amount, "amount");
 
-            if (currenciesToExclude.Contains(from) || currenciesToExclude.Contains(to))
-                return TypedResults.Extensions.APIResult_BadRequest();
+            var currenciesToExclude = new[] { "TRY", "PLN", "THB", "MXN" };
+            var currencyArgs = new[] { from, to };
+            var currenciesToValidate = new List<string>();
+            bool valid = true;
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var currencyArg in currencyArgs)
+            {
+                currenciesToValidate.AddRange(currencyArg.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            foreach (var currency in currenciesToValidate)
+            {
+                if (currenciesToExclude.Contains(currency))
+                {
+                    sb.Append(currency).Append(",");
+                    valid = false;
+                }
+            }
+
+            if (!valid)
+            {
+                string invaidCurrencies = sb.ToString().TrimEnd(',');
+                string message = $"Conversion involving one or all of the specified currencies is not allowed ({invaidCurrencies}).";
+                return TypedResults.Extensions.APIResult_BadRequest(message);
+            }
             
             var res = await currencyServices.GetLatestRatesAsync(from, to, amount.Value);
 
@@ -58,7 +82,7 @@ namespace CC.WebAPIs.Endpoints
             var res = await currencyServices.GetHistoricalRatesAsync(from, to, startDate.Value, endDate, page.Value, pageSize.Value);
 
             if (res != null)
-                return TypedResults.Extensions.APIResultPage_Ok(res, res.PageNo, res.PageSize, res.TotalRecords);
+                return TypedResults.Extensions.APIResultPage_Ok(res.currencyHistoricalEntity, res.pageNo, res.pageSize, res.totalRecords);
 
             return TypedResults.Extensions.APIResult_Ok(null);
         }

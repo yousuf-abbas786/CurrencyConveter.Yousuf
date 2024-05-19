@@ -27,11 +27,11 @@ namespace CC.WebAPIs.Infrastructure
             return new ResultError();
         }
 
-        public static IResult APIResult_BadRequest(this IResultExtensions resultExtensions)
+        public static IResult APIResult_BadRequest(this IResultExtensions resultExtensions, string message)
         {
             ArgumentNullException.ThrowIfNull(resultExtensions);
 
-            return new ResultBadRequest();
+            return new ResultBadRequest(message);
         }
     }
 }

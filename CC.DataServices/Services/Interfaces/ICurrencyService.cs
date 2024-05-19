@@ -13,7 +13,7 @@ namespace CC.DataServices.Services.Interfaces
     public interface ICurrencyService
     {
         Task<CurrencyEntity> GetLatestRatesAsync(string from, string to, double amount);
-        Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize);
+        Task<CurrencyHistoricalEntityDto> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize);
         Task<Dictionary<string, string>> GetCurrencies();
     }
 }

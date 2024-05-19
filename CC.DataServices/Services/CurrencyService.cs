@@ -45,7 +45,7 @@ namespace CC.DataServices.Services
             return response;
         }
 
-        public async Task<CurrencyHistoricalEntity> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize)
+        public async Task<CurrencyHistoricalEntityDto> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize)
         {
             string fromDate = startDate.GetDateString();
             string toDate = endDate.HasValue ? endDate.Value.GetDateString() : string.Empty;
@@ -64,11 +64,14 @@ namespace CC.DataServices.Services
 
             var clonedResponse = response.Clone();
             clonedResponse.HistoricalRates = clonedResponse.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
-            clonedResponse.PageNo = page;
-            clonedResponse.PageSize = pageSize;
-            clonedResponse.TotalRecords = response.HistoricalRates.Count;
 
-            return clonedResponse;
+            return new CurrencyHistoricalEntityDto
+            {
+                currencyHistoricalEntity = clonedResponse,
+                pageNo = page,
+                pageSize = pageSize,
+                totalRecords = response.HistoricalRates.Count
+            };
         }
 
         public async Task<Dictionary<string, string>> GetCurrencies()
