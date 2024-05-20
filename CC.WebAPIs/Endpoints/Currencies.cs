@@ -31,6 +31,7 @@ namespace CC.WebAPIs.Endpoints
 
         public async Task<IResult> ConvertCurrency(string? from, string? to, double? amount, ICurrencyService currencyServices)
         {
+            ArgumentNullException.ThrowIfNull(to, "to");
             ArgumentNullException.ThrowIfNull(amount, "amount");
 
             var currenciesToExclude = new[] { "TRY", "PLN", "THB", "MXN" };
@@ -41,7 +42,8 @@ namespace CC.WebAPIs.Endpoints
             StringBuilder sb = new StringBuilder();
             foreach (var currencyArg in currencyArgs)
             {
-                currenciesToValidate.AddRange(currencyArg.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
+                if (currencyArg != null)
+                    currenciesToValidate.AddRange(currencyArg.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries));
             }
 
             foreach (var currency in currenciesToValidate)
