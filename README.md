@@ -7,7 +7,7 @@
 <br>
 
 `Https: https://localhost:15001` <br>
-`Http: https://localhost:15101` 
+`Http: http://localhost:15101` 
 
 1. Ensure you have .NET 8 SDK installed.
 2. Clone the repository.
