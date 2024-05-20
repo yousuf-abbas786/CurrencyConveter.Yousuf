@@ -41,6 +41,8 @@
 `/api/Currencies/convert?from=GBP&to=USD,CAD&amount=10`
 
 - `from` is optional, it sets `EUR` by default.
+
+- Certain currencies (TRY, PLN, THB, MXN) are not supported for conversion and will return a bad response.
 <br>
 
 ### Historical
@@ -69,7 +71,6 @@
 ## Assumptions
 
 - The API may not respond to the first request, hence retry logic is implemented.
-- Certain currencies (TRY, PLN, THB, MXN) are not supported for conversion and will return a bad response.
 - Pagination is implemented on the historical rates endpoint.
 - A cache is implemented on all APIs to improve performance and availability.
 - A retry method is implemented on all APIs to retry the requests to Frankfurter APIs three times.
