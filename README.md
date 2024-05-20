@@ -71,8 +71,8 @@
 - The API may not respond to the first request, hence retry logic is implemented.
 - Certain currencies (TRY, PLN, THB, MXN) are not supported for conversion and will return a bad response.
 - Pagination is implemented on the historical rates endpoint.
-- Cache is implemented on all APIs to improve performance and availability.
-- Retry method is implemented on all APIs to retry the requests to frankfurter APIs 3 times.
+- A cache is implemented on all APIs to improve performance and availability.
+- A retry method is implemented on all APIs to retry the requests to Frankfurter APIs three times.
 
 <br>
 
