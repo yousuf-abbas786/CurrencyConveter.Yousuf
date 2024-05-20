@@ -4,11 +4,16 @@
 
 ## How to Run
 
+<br>
+
+`Https: https://localhost:15001` <br>
+`Http: https://localhost:15101` 
+
 1. Ensure you have .NET 8 SDK installed.
 2. Clone the repository.
 3. Navigate to the CC.WebAPIs directory.
 4. Run the application using `dotnet run`.
-5. The API helper page will be available at `https://localhost:15001/swagger/index.html`.
+5. The API helper page will be available at `/swagger/index.html`.
 
 <br>
 
@@ -66,6 +71,8 @@
 - The API may not respond to the first request, hence retry logic is implemented.
 - Certain currencies (TRY, PLN, THB, MXN) are not supported for conversion and will return a bad response.
 - Pagination is implemented on the historical rates endpoint.
+- Cache is implemented on all APIs to improve performance and availability.
+- Retry method is implemented on all APIs to retry the requests to frankfurter APIs 3 times.
 
 <br>
 
@@ -73,3 +80,4 @@
 
 - Caching could be further enhanced. Currently, it is using In-Memory cache, but we can also utilize Distributed Cache (e.g., Redis, SQL). Additionally, it could be improved to employ `asynchronous refresh`, refreshing the cache in the background after a specific time range for each request without disrupting the request flow.
 - Validations could also be enhanced.
+- More unit test could be written.
