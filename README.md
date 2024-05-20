@@ -55,6 +55,15 @@ It returns all data points for up to 90 days. Above that, it starts sampling by 
 <br>
 <br>
 <br>
+
+## Tests
+
+1. Navigate to the CC.WebAPIs.Test directory.
+2. Run the tests using `dotnet test`.
+
+<br>
+
+
 ## Assumptions
 
 - The API may not respond to the first request, hence retry logic is implemented.
