@@ -17,10 +17,10 @@
 ### `GET /api/Currencies/latest`
 This endpoint returns the latest rates. Rates quote against the `EUR` by default.
 
-You can quote against other currencies using the `from` parameter. 
-`/api/Currencies/latest?from=USD`
+You can quote against other currencies using the `from` parameter. <br>
+`/api/Currencies/latest?from=USD` <br>
 
-`to` limits returned rates to specified values.
+`to` limits returned rates to specified values. <br>
 `/api/Currencies/latest?to=GBP,CAD`
 <br>
 <br>
@@ -28,10 +28,10 @@ You can quote against other currencies using the `from` parameter.
 ### `GET /api/Currencies/convert` 
 You can convert any value between currencies using the above endpoints in combination with the `amount` parameter.
 
-Below, we convert 10 British Pounds to US Dollars.
+Below, we convert 10 British Pounds to US Dollars. <br>
 `/api/Currencies/convert?from=GBP&to=USD&amount=10`
 
-You can convert from single to multiple currencies by passing more currencies inside `to` parameter.
+You can convert from single to multiple currencies by passing more currencies inside `to` parameter. <br>
 `/api/Currencies/convert?from=GBP&to=USD,CAD&amount=10`
 
 `from` is optional, it sets `EUR` by default.
@@ -43,10 +43,10 @@ This endpoint returns a set of historical rates for a given time period.
 You can navigate the record sets by using `page` and `pageSize` parameters, also you will get the `totalRecords` count everytime in the response.
 `page` and `pageSize` are optional, it sets `1` and `10` respectively by default.
 
-If you omit the `endDate` date, it will return all dates up to the present.
+If you omit the `endDate` date, it will return all dates up to the present. <br>
 `/api/Currencies/historical?startDate=2020-01-01&page=1&pageSize=10`
 
-With a full list of currencies, the response grows large in size. For better performance, use the `to` parameter to limit result to rates you are interested in.
+With a full list of currencies, the response grows large in size. For better performance, use the `to` parameter to limit result to rates you are interested in. <br>
 `/api/Currencies/historical?to=GBP,CAD&startDate=2020-01-01&endDate=2020-01-31&page=1&pageSize=10`
 
 `from` is optional, it sets `EUR` by default.
