@@ -2,7 +2,7 @@
 using CC.Shared;
 using CC.Shared.Abstractions;
 using CC.Shared.Entities.CurrencyAPIEntities;
-using CC.Shared.ExtAPIEntities;
+using CC.Shared.Entities.CurrencyAPIEntities.DTOs;
 using CC.Shared.Helpers;
 
 using Flurl.Http.Configuration;
@@ -45,7 +45,7 @@ namespace CC.DataServices.Services
             return response;
         }
 
-        public async Task<CurrencyHistoricalEntityDto> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize)
+        public async Task<CurrencyHistoricalEntityDTO> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize)
         {
             string fromDate = startDate.GetDateString();
             string toDate = endDate.HasValue ? endDate.Value.GetDateString() : string.Empty;
@@ -66,7 +66,7 @@ namespace CC.DataServices.Services
             var clonedResponse = response.Clone();
             clonedResponse.HistoricalRates = clonedResponse.HistoricalRates.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(x => x.Key, x => x.Value);
 
-            return new CurrencyHistoricalEntityDto
+            return new CurrencyHistoricalEntityDTO
             {
                 currencyHistoricalEntity = clonedResponse,
                 pageNo = page,

@@ -28,12 +28,4 @@ namespace CC.Shared.Entities.CurrencyAPIEntities
 
 
     }
-
-    public class CurrencyHistoricalEntityDto
-    {
-        public CurrencyHistoricalEntity currencyHistoricalEntity { get; set; }
-        public int pageNo { get; set; }
-        public int pageSize { get; set; }
-        public long totalRecords { get; set; }
-    }
 }

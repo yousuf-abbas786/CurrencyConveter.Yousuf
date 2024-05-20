@@ -1,4 +1,5 @@
 ﻿using CC.Shared.Entities.CurrencyAPIEntities;
+using CC.Shared.Entities.CurrencyAPIEntities.DTOs;
 
 using MongoDB.Bson.Serialization.IdGenerators;
 
@@ -13,7 +14,7 @@ namespace CC.DataServices.Services.Interfaces
     public interface ICurrencyService
     {
         Task<CurrencyEntity> GetLatestRatesAsync(string from, string to, double amount);
-        Task<CurrencyHistoricalEntityDto> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize);
+        Task<CurrencyHistoricalEntityDTO> GetHistoricalRatesAsync(string from, string to, DateTime startDate, DateTime? endDate, int page, int pageSize);
         Task<Dictionary<string, string>> GetCurrencies();
     }
 }
