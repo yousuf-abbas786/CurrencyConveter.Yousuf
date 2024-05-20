@@ -71,5 +71,5 @@
 
 ## Enhancements
 
-- Caching could be more enhanced, currently it is using nMemory cache but we can also use Distributed Cache (e.g Redis, Sql). Also it could be further enhanced to use asynchronous refresh to refresh the cache in the background after a specific time range for each request without disrupting the request flow.
-- Validations could be more enhanced.
+- Caching could be further enhanced. Currently, it is using In-Memory cache, but we can also utilize Distributed Cache (e.g., Redis, SQL). Additionally, it could be improved to employ `asynchronous refresh`, refreshing the cache in the background after a specific time range for each request without disrupting the request flow.
+- Validations could also be enhanced.
